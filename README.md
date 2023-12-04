@@ -27,7 +27,24 @@ fork of [gordonklaus/portaudio](https://github.com/gordonklaus/portaudio).
 
 ## Usage
 
-You can include this repository in your project by simply running git clone, or through git submodules.
+You can include this repository in your project by simply running git clone, or through git submodules. Then use go workspace.
+
+In your project:
+
+```sh
+git submodule add https://github.com/oklookat/portaudio
+git submodule update --init --recursive
+```
+
+go.work file in your project:
+
+```txt
+go 1.21.4
+
+use .
+
+use ./portaudio
+```
 
 This project cannot be used via go get, because portaudio has to be built via cmake.
 
@@ -36,8 +53,6 @@ All work is done through the bootstrap.py script. You must run this script befor
 bootstrap.py takes the --release argument. In that case, the build will be done without any debug stuff.
 
 Also, by editing this script you can customize CMake flags for portaudio build.
-
-Translated with DeepL.com (free version)
 
 ## Updates
 

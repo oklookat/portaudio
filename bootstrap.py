@@ -13,9 +13,9 @@ flags = [
     "-DPA_USE_WMME=ON",
     "-DPA_USE_WASAPI=ON",
     "-DPA_USE_WDMKS_DEVICE_INFO=ON",
-    # With flags like this, even if we are using Windows and ALSA is enabled, 
-	# it doesn't matter because cmakelists has a check for OS; ALSA, etc. 
-	# In short, the flag will still be disabled on systems without ALSA.
+    # With flags like this, even if we are using Windows and ALSA is enabled,
+    # it doesn't matter because cmakelists has a check for OS; ALSA, etc.
+    # In short, the flag will still be disabled on systems without ALSA.
     "-DPA_USE_ALSA=ON",
     "-DPA_ALSA_DYNAMIC=OFF",
     "-DPA_USE_OSS=OFF",
@@ -23,8 +23,9 @@ flags = [
     "-DPA_USE_PULSEAUDIO=OFF",
 ]
 
-portaudio_lib = os.path.abspath("./portaudio")
-portaudio_build_dir = os.path.abspath("./build")
+script_dir = os.path.dirname(os.path.realpath(__file__))
+portaudio_lib = os.path.abspath(script_dir + "/portaudio")
+portaudio_build_dir = os.path.abspath(script_dir + "/build")
 
 
 def main():

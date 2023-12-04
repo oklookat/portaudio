@@ -1,9 +1,11 @@
-package main
+package tests
 
 import (
-	"github.com/gordonklaus/portaudio"
 	"os"
+	"testing"
 	"text/template"
+
+	"github.com/oklookat/portaudio"
 )
 
 var tmpl = template.Must(template.New("").Parse(
@@ -24,17 +26,11 @@ var tmpl = template.Must(template.New("").Parse(
 {{end}}`,
 ))
 
-func main() {
+func TestEnumerate(t *testing.T) {
 	portaudio.Initialize()
 	defer portaudio.Terminate()
 	hs, err := portaudio.HostApis()
-	chk(err)
+	chk(err, t)
 	err = tmpl.Execute(os.Stdout, hs)
-	chk(err)
-}
-
-func chk(err error) {
-	if err != nil {
-		panic(err)
-	}
+	chk(err, t)
 }

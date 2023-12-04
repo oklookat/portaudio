@@ -1,18 +1,20 @@
-package main
+package tests
 
 import (
-	"github.com/gordonklaus/portaudio"
+	"testing"
 	"time"
+
+	"github.com/oklookat/portaudio"
 )
 
-func main() {
+func TestEcho(t *testing.T) {
 	portaudio.Initialize()
 	defer portaudio.Terminate()
-	e := newEcho(time.Second / 3)
+	e := newEcho(time.Second/3, t)
 	defer e.Close()
-	chk(e.Start())
+	chk(e.Start(), t)
 	time.Sleep(4 * time.Second)
-	chk(e.Stop())
+	chk(e.Stop(), t)
 }
 
 type echo struct {
@@ -21,15 +23,15 @@ type echo struct {
 	i      int
 }
 
-func newEcho(delay time.Duration) *echo {
+func newEcho(delay time.Duration, t *testing.T) *echo {
 	h, err := portaudio.DefaultHostApi()
-	chk(err)
+	chk(err, t)
 	p := portaudio.LowLatencyParameters(h.DefaultInputDevice, h.DefaultOutputDevice)
 	p.Input.Channels = 1
 	p.Output.Channels = 1
 	e := &echo{buffer: make([]float32, int(p.SampleRate*delay.Seconds()))}
 	e.Stream, err = portaudio.OpenStream(p, e.processAudio)
-	chk(err)
+	chk(err, t)
 	return e
 }
 
@@ -38,11 +40,5 @@ func (e *echo) processAudio(in, out []float32) {
 		out[i] = .7 * e.buffer[e.i]
 		e.buffer[e.i] = in[i]
 		e.i = (e.i + 1) % len(e.buffer)
-	}
-}
-
-func chk(err error) {
-	if err != nil {
-		panic(err)
 	}
 }

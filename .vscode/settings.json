@@ -1,0 +1,4 @@
+{
+	// Disable test cache.
+	"go.testFlags": ["-count=1"]
+}
